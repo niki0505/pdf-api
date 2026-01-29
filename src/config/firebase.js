@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 import admin from "firebase-admin";
-import serviceAccount from "../../serviceAccountKey.json" with { type: "json" };
 
 export let app, firestore, storage, adminStorage;
 
@@ -13,7 +12,9 @@ export const initializeFirebaseApp = () => {
   storage = getStorage(app);
 
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(
+      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT),
+    ),
     storageBucket: firebaseConfig.storageBucket,
   });
 

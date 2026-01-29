@@ -4,5 +4,3 @@
 # Environment variables
 .env
 
-# Firebase Service Account Credentials
-serviceAccountKey.json
