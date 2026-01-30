@@ -82,10 +82,18 @@ export const getURL = async (req, res) => {
     const file = bucket.file(data.storagePath);
     const signedUrl = await file.getSignedUrl({
       action: "read",
-      expires: Date.now() + 10 * 1000,
+      expires: Date.now() + 60 * 60 * 1000, // 1 hour
     });
 
     return res.status(200).send({ url: signedUrl });
+
+    // const payload = {
+    //   sample: "sample",
+    // };
+    // const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    //   expiresIn: "1h",
+    // });
+    // return res.status(200).send({ token });
   } catch (error) {
     console.error("Error getting PDF URL:", error.message);
     return res

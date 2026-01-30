@@ -8,8 +8,6 @@ export let app, firestore, storage, adminStorage;
 export const initializeFirebaseApp = () => {
   const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG);
   app = initializeApp(firebaseConfig);
-  firestore = getFirestore(app);
-  storage = getStorage(app);
 
   admin.initializeApp({
     credential: admin.credential.cert(
@@ -19,4 +17,6 @@ export const initializeFirebaseApp = () => {
   });
 
   adminStorage = admin.storage();
+  firestore = getFirestore(app);
+  storage = getStorage(app);
 };

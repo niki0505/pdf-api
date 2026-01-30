@@ -1,7 +1,6 @@
 import express from "express";
 import "dotenv/config";
 import { initializeFirebaseApp } from "./src/config/firebase.js";
-
 import pdfRoutes from "./src/routes/pdf.route.js";
 
 const app = express();
