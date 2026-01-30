@@ -1,6 +1,6 @@
 import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../config/firebase.js";
-import { firestore } from "../config/firebase.js";
+import { storage } from "../config/firebase.ts";
+import { firestore } from "../config/firebase.ts";
 import {
   addDoc,
   collection,
@@ -10,8 +10,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import { adminStorage } from "../config/firebase.js";
-import jwt from "jsonwebtoken";
+import { adminStorage } from "../config/firebase.ts";
 
 export const uploadPDF = async (req: any, res: any) => {
   try {
@@ -87,15 +86,6 @@ export const getURL = async (req: any, res: any) => {
     });
 
     return res.status(200).send({ url: signedUrl });
-
-    // const payload = {
-    //   sample: "sample",
-    // };
-    // const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-    //   expiresIn: "1h",
-    // });
-    // console.log(token);
-    // return res.status(200).send({ token });
   } catch (error: any) {
     console.error("Error getting PDF URL:", error.message);
     return res
