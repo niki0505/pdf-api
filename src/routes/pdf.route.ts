@@ -1,7 +1,7 @@
 import express from "express";
 import multer from "multer";
-import { getURL, uploadPDF } from "../controllers/pdf.controller.js";
-import { authMiddleware } from "../middleware/auth.middleware.js";
+import { getURL, uploadPDF } from "../controllers/pdf.controller.ts";
+import { authMiddleware } from "../middleware/auth.middleware.ts";
 
 const upload = multer();
 

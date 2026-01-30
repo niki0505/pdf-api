@@ -1,9 +1,9 @@
 import express from "express";
 import "dotenv/config";
-import { initializeFirebaseApp } from "./src/config/firebase.js";
-import pdfRoutes from "./src/routes/pdf.route.js";
+import { initializeFirebaseApp } from "./src/config/firebase.ts";
+import pdfRoutes from "./src/routes/pdf.route.ts";
 
-const app = express();
+const app: any = express();
 
 initializeFirebaseApp();
 
@@ -14,7 +14,7 @@ app.use("/api", pdfRoutes);
 app.listen(PORT, () => {
   try {
     console.log(`Server is running on port http://localhost:${PORT}`);
-  } catch (error) {
+  } catch (error: any) {
     console.error(`Error starting server: ${error.message}`);
   }
 });

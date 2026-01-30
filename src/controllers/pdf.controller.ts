@@ -11,8 +11,9 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { adminStorage } from "../config/firebase.js";
+import jwt from "jsonwebtoken";
 
-export const uploadPDF = async (req, res) => {
+export const uploadPDF = async (req: any, res: any) => {
   try {
     if (!req.file) {
       return res.status(400).send({ message: "No PDF file uploaded" });
@@ -20,7 +21,7 @@ export const uploadPDF = async (req, res) => {
 
     const storageRef = ref(
       storage,
-      `pdfs/${new Date().toISOString().split(".")[0].replace(/:/g, "-")}_${req.file.originalname}`,
+      `pdfs/${new Date()?.toISOString().split(".")[0]?.replace(/:/g, "-")}_${req.file.originalname}`,
     );
     await uploadBytes(storageRef, req.file.buffer, {
       contentType: req.file.mimetype,
@@ -52,7 +53,7 @@ export const uploadPDF = async (req, res) => {
     return res.status(200).send({
       message: "PDF uploaded successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error uploading PDF:", error.message);
     return res
       .status(500)
@@ -60,7 +61,7 @@ export const uploadPDF = async (req, res) => {
   }
 };
 
-export const getURL = async (req, res) => {
+export const getURL = async (req: any, res: any) => {
   try {
     const { id } = req.params;
     if (!id) {
@@ -76,10 +77,10 @@ export const getURL = async (req, res) => {
     if (querySnapshot.empty) {
       return res.status(404).send({ message: "PDF not found" });
     }
-    const data = querySnapshot.docs[0].data();
+    const data = querySnapshot?.docs[0]?.data();
 
     const bucket = adminStorage.bucket();
-    const file = bucket.file(data.storagePath);
+    const file = bucket.file(data?.storagePath);
     const signedUrl = await file.getSignedUrl({
       action: "read",
       expires: Date.now() + 60 * 60 * 1000, // 1 hour
@@ -90,11 +91,12 @@ export const getURL = async (req, res) => {
     // const payload = {
     //   sample: "sample",
     // };
-    // const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    // const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
     //   expiresIn: "1h",
     // });
+    // console.log(token);
     // return res.status(200).send({ token });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error getting PDF URL:", error.message);
     return res
       .status(500)
