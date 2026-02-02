@@ -7,7 +7,7 @@ const upload = multer();
 
 const router = express.Router();
 
-router.post("/upload-pdf", authMiddleware, upload.single("pdf"), uploadPDF);
+router.post("/upload-pdf/:id", authMiddleware, upload.single("pdf"), uploadPDF);
 
 router.get("/get-url/:id", authMiddleware, getURL);
 

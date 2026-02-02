@@ -1,19 +1,12 @@
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../config/firebase.ts";
 import { firestore } from "../config/firebase.ts";
-import {
-  addDoc,
-  collection,
-  runTransaction,
-  doc,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { adminStorage } from "../config/firebase.ts";
 
 export const uploadPDF = async (req: any, res: any) => {
   try {
+    const { id } = req.params;
     if (!req.file) {
       return res.status(400).send({ message: "No PDF file uploaded" });
     }
@@ -26,24 +19,8 @@ export const uploadPDF = async (req: any, res: any) => {
       contentType: req.file.mimetype,
     });
 
-    let nextId;
-    await runTransaction(firestore, async (transaction) => {
-      const counterRef = doc(firestore, "counters", "pdfCounter");
-      const counterDoc = await transaction.get(counterRef);
-
-      if (!counterDoc.exists()) {
-        nextId = 1;
-        transaction.set(counterRef, { count: nextId });
-      } else {
-        nextId = counterDoc.data().count + 1;
-        transaction.update(counterRef, { count: nextId });
-      }
-
-      return nextId;
-    });
-
     await addDoc(collection(firestore, "pdfs"), {
-      id: nextId,
+      id: id,
       fileName: req.file.originalname,
       storagePath: storageRef.fullPath,
       uploadedAt: new Date(),
@@ -84,7 +61,6 @@ export const getURL = async (req: any, res: any) => {
       action: "read",
       expires: Date.now() + 60 * 60 * 1000, // 1 hour
     });
-
     return res.status(200).send({ url: signedUrl });
   } catch (error: any) {
     console.error("Error getting PDF URL:", error.message);
